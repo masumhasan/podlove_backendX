@@ -69,7 +69,22 @@ async function testMatching() {
     console.log(`   Gender: ${user.gender}`);
     console.log(`   Date of Birth: ${user.dateOfBirth}`);
     console.log(`   Location: ${user.location?.place || "Not set"}`);
-    console.log(`   Bio: ${user.bio || "No bio"}\n`);
+    console.log(`   Bio: ${user.bio || "No bio"}`);
+    
+    // Show compatibility values for the test user
+    if (user.compatibility && user.compatibility.length > 0) {
+      const compatAnswers = user.compatibility.filter((a: any) => a && a !== "null" && typeof a === "string" && a.trim().length > 0);
+      if (compatAnswers.length > 0) {
+        console.log(`   💬 Core Values (${compatAnswers.length} answers):`);
+        compatAnswers.slice(0, 3).forEach((answer: string) => {
+          console.log(`      • ${answer}`);
+        });
+        if (compatAnswers.length > 3) {
+          console.log(`      ... and ${compatAnswers.length - 3} more`);
+        }
+      }
+    }
+    console.log();
     
     console.log("🎯 Preferences:");
     console.log(`   Looking for: ${user.preferences?.gender?.join(", ") || "Not set"}`);
@@ -220,10 +235,18 @@ function displayMatches(matches: any[], testUser: any, hasScores: boolean) {
       console.log(`   🧠 Personality: Spectrum ${match.personality.spectrum}, Balance ${match.personality.balance}, Focus ${match.personality.focus}`);
     }
 
-    // Show compatibility highlights
+    // Show compatibility values - IMPORTANT for understanding match quality
     if (match.compatibility && match.compatibility.length > 0) {
-      const compatAnswers = match.compatibility.filter((a: any) => a && a !== "null");
-      console.log(`   💬 Compatibility Answers: ${compatAnswers.length} questions answered`);
+      const compatAnswers = match.compatibility.filter((a: any) => a && a !== "null" && typeof a === "string" && a.trim().length > 0);
+      if (compatAnswers.length > 0) {
+        console.log(`   💬 Core Values (${compatAnswers.length} answers):`);
+        compatAnswers.slice(0, 3).forEach((answer: string) => {
+          console.log(`      • ${answer}`);
+        });
+        if (compatAnswers.length > 3) {
+          console.log(`      ... and ${compatAnswers.length - 3} more`);
+        }
+      }
     }
   });
 
