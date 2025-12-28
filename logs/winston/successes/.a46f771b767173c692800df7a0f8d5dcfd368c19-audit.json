@@ -44,6 +44,11 @@
             "date": 1766831381688,
             "name": "C:\\20300\\github\\podlove_backend\\logs\\winston\\successes\\um-2025-12-27-16-success.log",
             "hash": "0e32e2d4309dc15925a893f63ca21804d2edda3b17be9fbed6b43ecd25bf61da"
+        },
+        {
+            "date": 1766838192321,
+            "name": "C:\\20300\\github\\podlove_backend\\logs\\winston\\successes\\um-2025-12-27-18-success.log",
+            "hash": "9bc3ab72e230f90f9fb0c04c0b6a4917d143f9c931043e5307225390c4dfcd2e"
         }
     ],
     "hashType": "sha256"
