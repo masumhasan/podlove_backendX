@@ -70,23 +70,22 @@ export function userProfileOnlyToText(user: any): string {
   const parts: string[] = [];
 
   // Basic info
-  if (user.name) parts.push(`Name: ${user.name}`);
   if (user.gender) parts.push(`Gender: ${user.gender}`);
   if (user.dateOfBirth) parts.push(`Date of Birth: ${user.dateOfBirth}`);
   if (user.bodyType) parts.push(`Body Type: ${user.bodyType}`);
   if (user.ethnicity?.length) parts.push(`Ethnicity: ${user.ethnicity.join(", ")}`);
 
-  // Bio
+  // Bio - IMPORTANT for semantic matching
   if (user.bio) parts.push(`Bio: ${user.bio}`);
 
-  // Personality
+  // Personality traits
   if (user.personality) {
     parts.push(
       `Personality - Spectrum: ${user.personality.spectrum}, Balance: ${user.personality.balance}, Focus: ${user.personality.focus}`
     );
   }
 
-  // Interests
+  // Interests - helps find common ground
   if (user.interests?.length) {
     parts.push(`Interests: ${user.interests.join(", ")}`);
   }
@@ -96,9 +95,13 @@ export function userProfileOnlyToText(user: any): string {
     parts.push(`Location: ${user.location.place}`);
   }
 
-  // Compatibility answers (MOST IMPORTANT for matching)
+  // Compatibility answers - HIGHEST WEIGHT for deep matching
+  // These reveal values, beliefs, and lifestyle preferences
   if (user.compatibility?.length) {
-    parts.push(`Compatibility Answers: ${user.compatibility.join(" | ")}`);
+    const filteredCompatibility = user.compatibility.filter((ans: string) => ans && ans !== "null" && ans.trim().length > 0);
+    if (filteredCompatibility.length > 0) {
+      parts.push(`Core Values & Lifestyle: ${filteredCompatibility.join(" | ")}`);
+    }
   }
 
   return parts.join(". ");
@@ -107,6 +110,7 @@ export function userProfileOnlyToText(user: any): string {
 /**
  * Converts ONLY user's preferences (WHAT they WANT) to semantic text
  * Used for: Preference vector in bidirectional matching
+ * Now includes compatibility desires for deeper matching
  */
 export function userPreferencesToText(user: any): string {
   const parts: string[] = [];
@@ -135,7 +139,21 @@ export function userPreferencesToText(user: any): string {
     }
   }
 
-  return parts.length > 0 ? parts.join(". ") : "No specific preferences";
+  // Include compatibility answers as "what they value in a partner"
+  // This creates semantic similarity between their values and potential matches' profiles
+  if (user.compatibility?.length) {
+    const filteredCompatibility = user.compatibility.filter((ans: string) => ans && ans !== "null" && ans.trim().length > 0);
+    if (filteredCompatibility.length > 0) {
+      parts.push(`Seeking someone who values: ${filteredCompatibility.join(" | ")}`);
+    }
+  }
+
+  // Include interests as preference indicators
+  if (user.interests?.length) {
+    parts.push(`Interested in connecting over: ${user.interests.join(", ")}`);
+  }
+
+  return parts.length > 0 ? parts.join(". ") : "Open to connections";
 }
 
 /**
