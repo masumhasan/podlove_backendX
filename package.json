@@ -8,9 +8,9 @@
     ]
   },
   "scripts": {
-    "start": "node dist/server.js",
-    "build": "tsc --project tsconfig.json && tsc-alias -p tsconfig.json",
-    "dev": "nodemon -r tsconfig-paths/register src/server.ts",
+    "start": "node api.js && node dist/server.js",
+    "build": "node api.js && tsc --project tsconfig.json && tsc-alias -p tsconfig.json",
+    "dev": "node api.js && nodemon -r tsconfig-paths/register src/server.ts",
     "vector:test": "ts-node -r tsconfig-paths/register scripts/testVectorSetup.ts",
     "vector:migrate": "ts-node -r tsconfig-paths/register scripts/migrateUsersToVectorDB.ts",
     "vector:recreate": "ts-node -r tsconfig-paths/register scripts/recreatePineconeIndex.ts",
